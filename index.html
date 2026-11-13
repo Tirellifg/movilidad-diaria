@@ -109,17 +109,17 @@
   .exercise-name { font-size: 1.35rem; font-weight: 700; margin: 6px 0 8px; }
   .exercise-instructions { color: var(--text-dim); font-size: .92rem; line-height: 1.4; max-width: 310px; min-height: 2.6em; }
 
-  .video-wrap {
-    width: 100%; max-width: 320px; aspect-ratio: 16/9; margin: 4px auto 0;
-    background: var(--card-2); border-radius: 16px; overflow: hidden; box-shadow: var(--shadow);
-  }
-  .video-frame { width: 100%; height: 100%; border: none; display: block; }
-
-  .figure-wrap { width: 110px; margin: 2px auto 0; }
-  .figure { width: 100%; height: 130px; }
-  .figure line, .figure circle { stroke: var(--accent); stroke-width: 6; stroke-linecap: round; fill: none; }
+  .figure-wrap { width: 170px; margin: 4px auto 0; }
+  .figure { width: 100%; height: 190px; }
+  .figure line { stroke: var(--accent); stroke-linecap: round; fill: none; }
+  .figure #torso { stroke-width: 30; }
+  .figure #armL, .figure #armR { stroke-width: 15; }
+  .figure #legL, .figure #legR { stroke-width: 17; }
   .figure circle.head { fill: var(--accent); stroke: none; }
-  .figure-fallback-note { color: var(--text-dim); font-size: .78rem; margin-top: 2px; }
+  .video-link {
+    display: block; text-align: center; color: var(--accent); font-size: .85rem; font-weight: 600;
+    text-decoration: none; margin-top: 6px; padding: 6px;
+  }
 
   .level-row { margin-top: 6px; min-height: 1.6em; }
   .level-btn {
@@ -291,25 +291,21 @@
       <div class="exercise-name" id="exercise-name">Ejercicio</div>
       <div class="exercise-instructions" id="exercise-instructions">Instrucciones</div>
 
-      <div class="video-wrap" id="video-wrap">
-        <iframe id="video-frame" class="video-frame" src="" title="Demostración" frameborder="0"
-          allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-      </div>
-      <div class="figure-wrap" id="figure-wrap" style="display:none;">
-        <svg class="figure" id="figure-svg" viewBox="0 0 110 160">
+      <div class="figure-wrap" id="figure-wrap">
+        <svg class="figure" id="figure-svg" viewBox="0 0 110 170">
           <g class="figure-g">
             <g class="upper-g">
-              <circle class="head" id="head" cx="55" cy="38" r="11"></circle>
-              <line x1="55" y1="49" x2="55" y2="98" id="torso"></line>
-              <line id="armL" x1="55" y1="55" x2="33" y2="80"></line>
-              <line id="armR" x1="55" y1="55" x2="77" y2="80"></line>
+              <line id="torso" x1="55" y1="60" x2="55" y2="105"></line>
+              <line id="armL" x1="55" y1="63" x2="30" y2="90"></line>
+              <line id="armR" x1="55" y1="63" x2="80" y2="90"></line>
+              <circle class="head" id="head" cx="55" cy="38" r="16"></circle>
             </g>
-            <line id="legL" x1="55" y1="98" x2="38" y2="148"></line>
-            <line id="legR" x1="55" y1="98" x2="72" y2="148"></line>
-            <circle id="footR" cx="72" cy="150" r="3.5" fill="var(--accent)" stroke="none"></circle>
+            <line id="legL" x1="55" y1="105" x2="36" y2="158"></line>
+            <line id="legR" x1="55" y1="105" x2="74" y2="158"></line>
+            <circle id="footR" cx="74" cy="160" r="6" fill="var(--accent)" stroke="none"></circle>
           </g>
         </svg>
-        <div class="figure-fallback-note">Sin video para este ejercicio — seguí la instrucción de arriba.</div>
+        <a class="video-link" id="video-link" href="#" target="_blank" rel="noopener">▶ Ver video real de este ejercicio</a>
       </div>
       <div class="level-row" id="level-row"></div>
 
@@ -749,21 +745,13 @@
     tag.style.background = ZONES[ex.zone].color + "33";
     tag.style.color = ZONES[ex.zone].color;
 
-    var frame = document.getElementById("video-frame");
-    var videoWrap = document.getElementById("video-wrap");
-    var figureWrap = document.getElementById("figure-wrap");
+    figureSvg.setAttribute("class", "figure move-" + ex.move);
+    var videoLink = document.getElementById("video-link");
     if (ex.videoId) {
-      frame.src = "https://www.youtube.com/embed/" + ex.videoId +
-        "?rel=0&modestbranding=1&autoplay=1&mute=1&playsinline=1&loop=1&playlist=" + ex.videoId + "&start=3";
-      videoWrap.style.display = "block";
-      figureWrap.style.display = "none";
+      videoLink.href = "https://www.youtube.com/watch?v=" + ex.videoId;
+      videoLink.style.display = "block";
     } else {
-      frame.src = "";
-      videoWrap.style.display = "none";
-      figureWrap.style.display = "flex";
-      figureWrap.style.flexDirection = "column";
-      figureWrap.style.alignItems = "center";
-      figureSvg.setAttribute("class", "figure move-" + ex.move);
+      videoLink.style.display = "none";
     }
 
     renderLevelControl(ex);
