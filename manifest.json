@@ -1,0 +1,15 @@
+{
+  "name": "Movilidad Diaria",
+  "short_name": "Movilidad",
+  "description": "Rutina diaria de movilidad y elongación en casa.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f7ead9",
+  "theme_color": "#f7ead9",
+  "icons": [
+    { "src": "app-icon.png", "sizes": "1024x1024", "type": "image/png", "purpose": "any" },
+    { "src": "app-icon.png", "sizes": "1024x1024", "type": "image/png", "purpose": "maskable" }
+  ]
+}
