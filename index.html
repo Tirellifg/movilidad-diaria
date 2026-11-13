@@ -109,13 +109,23 @@
   .exercise-name { font-size: 1.35rem; font-weight: 700; margin: 6px 0 8px; }
   .exercise-instructions { color: var(--text-dim); font-size: .92rem; line-height: 1.4; max-width: 310px; min-height: 2.6em; }
 
-  .figure-wrap { width: 170px; margin: 4px auto 0; }
-  .figure { width: 100%; height: 190px; }
-  .figure line { stroke: var(--accent); stroke-linecap: round; fill: none; }
-  .figure #torso { stroke-width: 30; }
-  .figure #armL, .figure #armR { stroke-width: 15; }
-  .figure #legL, .figure #legR { stroke-width: 17; }
+  .figure-wrap { width: 150px; margin: 4px auto 0; }
+  .figure { width: 100%; height: 225px; }
+  .figure .limb { stroke: var(--accent); stroke-linecap: round; fill: none; }
+  .figure .torso { stroke-width: 24; }
+  .figure .upperarm, .figure .forearm { stroke-width: 13; }
+  .figure .thigh { stroke-width: 17; }
+  .figure .shin { stroke-width: 14; }
+  .figure .foot { stroke-width: 11; }
   .figure circle.head { fill: var(--accent); stroke: none; }
+
+  #thighG { transform-origin: 60px 110px; transition: transform .35s ease; }
+  #kneeG { transform-origin: 60px 150px; transition: transform .35s ease; }
+  #hipG { transform-origin: 60px 110px; transition: transform .35s ease; }
+  #shoulderG { transform-origin: 60px 74px; transition: transform .35s ease; }
+  #elbowG { transform-origin: 60px 100px; transition: transform .35s ease; }
+  #neckG { transform-origin: 60px 70px; transition: transform .35s ease; }
+  #orientG { transform-origin: 70px 105px; transition: transform .4s ease; }
   .video-link {
     display: block; text-align: center; color: var(--accent); font-size: .85rem; font-weight: 600;
     text-decoration: none; margin-top: 6px; padding: 6px;
@@ -167,35 +177,10 @@
 
   .sparkline { width: 100%; height: 36px; margin-top: 6px; }
 
-  /* breathing / move animations applied to #upper or whole figure */
-  .move-pulse .figure-g { animation: f-pulse 2.4s ease-in-out infinite; transform-origin: 55px 90px; }
-  @keyframes f-pulse { 0%,100%{ transform: scale(1);} 50%{ transform: scale(1.045);} }
-
-  .move-nod #head { animation: f-nod 2.6s ease-in-out infinite; transform-origin: 55px 46px; }
-  @keyframes f-nod { 0%,100%{ transform: rotate(0deg);} 25%{ transform: rotate(-16deg);} 75%{ transform: rotate(16deg);} }
-
-  .move-shoulders #armL, .move-shoulders #armR { animation: f-shoulders 2.2s ease-in-out infinite; }
-  .move-shoulders #armL { transform-origin: 55px 55px; }
-  .move-shoulders #armR { transform-origin: 55px 55px; animation-delay: .1s; }
-  @keyframes f-shoulders { 0%,100%{ transform: rotate(0deg) translateY(0);} 50%{ transform: rotate(14deg) translateY(-4px);} }
-
-  .move-armcross #armL { animation: f-armcross 2.4s ease-in-out infinite; transform-origin: 55px 55px; }
-  @keyframes f-armcross { 0%,100%{ transform: rotate(0deg);} 50%{ transform: rotate(55deg);} }
-
-  .move-lean .figure-g { animation: f-lean 2.6s ease-in-out infinite; transform-origin: 55px 98px; }
-  @keyframes f-lean { 0%,100%{ transform: rotate(0deg);} 50%{ transform: rotate(13deg);} }
-
-  .move-twist .upper-g { animation: f-twist 2.4s ease-in-out infinite; transform-origin: 55px 70px; }
-  @keyframes f-twist { 0%,100%{ transform: rotate(0deg) scaleX(1);} 50%{ transform: rotate(10deg) scaleX(.9);} }
-
-  .move-fold .upper-g { animation: f-fold 2.8s ease-in-out infinite; transform-origin: 55px 98px; }
-  @keyframes f-fold { 0%,100%{ transform: rotate(0deg) translateY(0);} 50%{ transform: rotate(28deg) translateY(4px);} }
-
-  .move-lunge #legL { animation: f-lunge 2.4s ease-in-out infinite; transform-origin: 55px 98px; }
-  @keyframes f-lunge { 0%,100%{ transform: translateX(0) rotate(0deg);} 50%{ transform: translateX(-10px) rotate(-14deg);} }
-
-  .move-anklecircle #footR { animation: f-ankle 2.2s linear infinite; transform-origin: 70px 148px; }
-  @keyframes f-ankle { from{ transform: rotate(0deg);} to{ transform: rotate(360deg);} }
+  /* joint rotations are set inline by JS per exercise/pose; this is just a gentle breathing cue on held poses */
+  .figure-g { transform-origin: 60px 110px; }
+  .figure.breathing .figure-g { animation: f-breathe 2.6s ease-in-out infinite; }
+  @keyframes f-breathe { 0%,100%{ transform: scale(1);} 50%{ transform: scale(1.035);} }
 </style>
 </head>
 <body>
@@ -292,17 +277,29 @@
       <div class="exercise-instructions" id="exercise-instructions">Instrucciones</div>
 
       <div class="figure-wrap" id="figure-wrap">
-        <svg class="figure" id="figure-svg" viewBox="0 0 110 170">
-          <g class="figure-g">
-            <g class="upper-g">
-              <line id="torso" x1="55" y1="60" x2="55" y2="105"></line>
-              <line id="armL" x1="55" y1="63" x2="30" y2="90"></line>
-              <line id="armR" x1="55" y1="63" x2="80" y2="90"></line>
-              <circle class="head" id="head" cx="55" cy="38" r="16"></circle>
+        <svg class="figure" id="figure-svg" viewBox="0 0 140 210">
+          <g class="orient-g" id="orientG">
+           <g class="figure-g">
+            <g class="thigh-g" id="thighG">
+              <line class="limb thigh" x1="60" y1="110" x2="60" y2="150"></line>
+              <g class="knee-g" id="kneeG">
+                <line class="limb shin" x1="60" y1="150" x2="60" y2="185"></line>
+                <line class="limb foot" x1="60" y1="185" x2="84" y2="190"></line>
+              </g>
             </g>
-            <line id="legL" x1="55" y1="105" x2="36" y2="158"></line>
-            <line id="legR" x1="55" y1="105" x2="74" y2="158"></line>
-            <circle id="footR" cx="74" cy="160" r="6" fill="var(--accent)" stroke="none"></circle>
+            <g class="hip-g" id="hipG">
+              <line class="limb torso" x1="60" y1="108" x2="60" y2="70"></line>
+              <g class="shoulder-g" id="shoulderG">
+                <line class="limb upperarm" x1="60" y1="74" x2="60" y2="100"></line>
+                <g class="elbow-g" id="elbowG">
+                  <line class="limb forearm" x1="60" y1="100" x2="60" y2="124"></line>
+                </g>
+              </g>
+              <g class="neck-g" id="neckG">
+                <circle class="head" id="head" cx="60" cy="54" r="15"></circle>
+              </g>
+            </g>
+           </g>
           </g>
         </svg>
         <a class="video-link" id="video-link" href="#" target="_blank" rel="noopener">▶ Ver video real de este ejercicio</a>
@@ -326,7 +323,7 @@
         <button class="ctrl-btn play" id="play-btn">Pausar</button>
         <button class="ctrl-btn" id="next-btn">Sig ⟳</button>
       </div>
-      <div class="replace-row">
+      <div class="replace-row" id="replace-row">
         <button class="replace-btn" id="replace-btn">🔁 Me molestó, cambiar ejercicio</button>
         <button class="replace-btn dismiss-btn" id="dismiss-btn">🚫 No me gusta, sacarlo para siempre</button>
       </div>
@@ -375,32 +372,53 @@
   var ZONE_ORDER = ["cuello_hombros", "espalda_alta", "espalda_baja", "cadera", "piernas", "pies"];
 
   var EXERCISES = [
-    { id: "neck_rot",         zone: "cuello_hombros", name: "Rotación de cuello",             dur: 40, inst1: "Círculos pequeños y lentos, sin forzar.", inst2: "Círculos grandes y lentos, llegando bien atrás y a los costados.", move: "nod", videoId: "j8Bm_Yyh1ug" },
-    { id: "shoulder_roll",    zone: "cuello_hombros", name: "Círculos de hombros",             dur: 30, inst1: "Círculos chicos y lentos, sintiendo que destraba.", inst2: "Círculos grandes y marcados: arriba, atrás y abajo.", move: "shoulders", videoId: "X7NtgY9kCCM" },
-    { id: "cross_shoulder",   zone: "cuello_hombros", name: "Cruce de hombro",                 dur: 40, inst1: "Cruzá el brazo al pecho sin presionar con el otro, solo sostenelo ahí.", inst2: "Cruzá el brazo al pecho y presioná suave con el otro. 20s cada lado.", move: "armcross", videoId: "uNmWSg705JA", sides: true },
-    { id: "chest_door",       zone: "cuello_hombros", name: "Pecho en marco de puerta",        dur: 40, inst1: "Antebrazo apoyado en la pared, sin girar mucho el cuerpo todavía.", inst2: "Antebrazo en la pared, girá bien el cuerpo al lado opuesto. 20s cada lado.", move: "lean", videoId: "Dmm8_S23I74", sides: true },
+    { id: "neck_rot",         zone: "cuello_hombros", name: "Rotación de cuello",             dur: 40, inst1: "Círculos pequeños y lentos, sin forzar.", inst2: "Círculos grandes y lentos, llegando bien atrás y a los costados.", videoId: "j8Bm_Yyh1ug",
+      poseA: { neck: -22 }, poseB: { neck: 22 } },
+    { id: "shoulder_roll",    zone: "cuello_hombros", name: "Círculos de hombros",             dur: 30, inst1: "Círculos chicos y lentos, sintiendo que destraba.", inst2: "Círculos grandes y marcados: arriba, atrás y abajo.", videoId: "X7NtgY9kCCM",
+      poseA: { shoulder: -8, elbow: 5 }, poseB: { shoulder: 35, elbow: 15 } },
+    { id: "cross_shoulder",   zone: "cuello_hombros", name: "Cruce de hombro",                 dur: 40, inst1: "Cruzá el brazo al pecho sin presionar con el otro, solo sostenelo ahí.", inst2: "Cruzá el brazo al pecho y presioná suave con el otro. 20s cada lado.", videoId: "uNmWSg705JA", sides: true,
+      poseA: { shoulder: 0, elbow: 0 }, poseB: { shoulder: -95, elbow: 55 } },
+    { id: "chest_door",       zone: "cuello_hombros", name: "Pecho en marco de puerta",        dur: 40, inst1: "Antebrazo apoyado en la pared, sin girar mucho el cuerpo todavía.", inst2: "Antebrazo en la pared, girá bien el cuerpo al lado opuesto. 20s cada lado.", videoId: "Dmm8_S23I74", sides: true,
+      poseA: { shoulder: -90, hip: 0 }, poseB: { shoulder: -90, hip: -18 } },
 
-    { id: "thread_needle",    zone: "espalda_alta", name: "Rosca torácica",                    dur: 40, inst1: "Hacé el movimiento despacio, sin bajar mucho el hombro.", inst2: "Pasá bien el brazo por debajo del otro, hombro y cabeza apoyados. 20s cada lado.", move: "twist", videoId: "7C8-zj3nRro", sides: true },
-    { id: "cat_cow",          zone: "espalda_alta", name: "Gato-camello",                      dur: 40, inst1: "Movés poco, sin forzar la curva de la espalda.", inst2: "Arqueá y redondeá bien la espalda con cada respiración.", move: "fold", videoId: "xyNwxiuERXc" },
-    { id: "thoracic_ext",     zone: "espalda_alta", name: "Extensión torácica",                dur: 35, inst1: "Arqueás apenas, sin manos detrás de la cabeza si molesta.", inst2: "Manos detrás de la cabeza, arqueá bien la zona media de la espalda.", move: "lean", videoId: "vx8T53c18LE" },
+    { id: "thread_needle",    zone: "espalda_alta", name: "Rosca torácica",                    dur: 40, inst1: "Hacé el movimiento despacio, sin bajar mucho el hombro.", inst2: "Pasá bien el brazo por debajo del otro, hombro y cabeza apoyados. 20s cada lado.", videoId: "7C8-zj3nRro", sides: true,
+      poseA: { hip: 78, thigh: -15, knee: 95, shoulder: -70, elbow: 30 }, poseB: { hip: 70, thigh: -15, knee: 95, shoulder: -15, elbow: 80 } },
+    { id: "cat_cow",          zone: "espalda_alta", name: "Gato-camello",                      dur: 40, inst1: "Movés poco, sin forzar la curva de la espalda.", inst2: "Arqueá y redondeá bien la espalda con cada respiración.", videoId: "xyNwxiuERXc",
+      poseA: { hip: 85, thigh: -18, knee: 95 }, poseB: { hip: 55, thigh: -18, knee: 95, neck: -15 } },
+    { id: "thoracic_ext",     zone: "espalda_alta", name: "Extensión torácica",                dur: 35, inst1: "Arqueás apenas, sin manos detrás de la cabeza si molesta.", inst2: "Manos detrás de la cabeza, arqueá bien la zona media de la espalda.", videoId: "vx8T53c18LE",
+      poseA: { shoulder: -150, elbow: 95, hip: 0 }, poseB: { shoulder: -150, elbow: 95, hip: -22 } },
 
-    { id: "knee_chest",       zone: "espalda_baja", name: "Rodillas al pecho",                 dur: 40, inst1: "Llevá una rodilla por vez si las dos juntas tira mucho.", inst2: "Las dos rodillas juntas al pecho, abrazadas.", move: "pulse", videoId: "CClBl0H9fe4" },
-    { id: "child_pose",       zone: "espalda_baja", name: "Postura del niño",                  dur: 45, inst1: "Separá un poco las rodillas y no bajes del todo si tira la lumbar.", inst2: "Rodillas juntas, sentate bien atrás sobre los talones.", move: "pulse", videoId: "HBdNHrt0A7Y" },
-    { id: "pelvic_tilt",      zone: "espalda_baja", name: "Básculas pélvicas",                 dur: 40, inst1: "Movimiento chico, solo notando la lumbar tocar el piso.", inst2: "Presioná fuerte la lumbar contra el piso y soltá, bien marcado.", move: "pulse", videoId: "YLaTyrPAjbw" },
-    { id: "lying_twist",      zone: "espalda_baja", name: "Torsión lumbar acostado",           dur: 40, inst1: "Dejá caer las rodillas solo un poco, sin forzar.", inst2: "Rodillas juntas bien hacia el piso de cada lado. 20s cada lado.", move: "twist", videoId: "6c6Zk3SBzrk", sides: true },
+    { id: "knee_chest",       zone: "espalda_baja", name: "Rodillas al pecho",                 dur: 40, inst1: "Llevá una rodilla por vez si las dos juntas tira mucho.", inst2: "Las dos rodillas juntas al pecho, abrazadas.", videoId: "CClBl0H9fe4",
+      poseA: { orient: 90, thigh: 15, knee: 15 }, poseB: { orient: 90, thigh: 100, knee: 120 } },
+    { id: "child_pose",       zone: "espalda_baja", name: "Postura del niño",                  dur: 45, inst1: "Separá un poco las rodillas y no bajes del todo si tira la lumbar.", inst2: "Rodillas juntas, sentate bien atrás sobre los talones.", videoId: "HBdNHrt0A7Y",
+      poseA: { hip: 78, thigh: -25, knee: 115, shoulder: -75, elbow: 10 }, breathing: true },
+    { id: "pelvic_tilt",      zone: "espalda_baja", name: "Básculas pélvicas",                 dur: 40, inst1: "Movimiento chico, solo notando la lumbar tocar el piso.", inst2: "Presioná fuerte la lumbar contra el piso y soltá, bien marcado.", videoId: "YLaTyrPAjbw",
+      poseA: { orient: 90, thigh: 85, knee: 95, hip: -8 }, poseB: { orient: 90, thigh: 85, knee: 95, hip: 12 } },
+    { id: "lying_twist",      zone: "espalda_baja", name: "Torsión lumbar acostado",           dur: 40, inst1: "Dejá caer las rodillas solo un poco, sin forzar.", inst2: "Rodillas juntas bien hacia el piso de cada lado. 20s cada lado.", videoId: "6c6Zk3SBzrk", sides: true,
+      poseA: { orient: 90, thigh: 60, knee: 100 }, poseB: { orient: 90, thigh: 135, knee: 100 } },
 
-    { id: "hip_flexor_lunge", zone: "cadera", name: "Estocada (flexor de cadera)",             dur: 40, inst1: "Estocada alta, sin bajar mucho la rodilla de atrás.", inst2: "Estocada baja, cadera bien hacia adelante. 20s cada lado.", move: "lunge", videoId: "G8rbX0npKVE", sides: true },
-    { id: "figure4",          zone: "cadera", name: "Figura 4 / paloma",                       dur: 50, inst1: "Sentado en una silla, cruzá el tobillo sobre la rodilla sin inclinarte mucho.", inst2: "Acostado o en el piso, cruzá el tobillo e inclinate bien adelante. 25s cada lado.", move: "pulse", videoId: "cBFDMWI3MA0", sides: true },
-    { id: "ninety_ninety",    zone: "cadera", name: "90/90 cambios de cadera",                 dur: 40, inst1: "Con las manos de apoyo atrás, rotá poquito de un lado al otro.", inst2: "Sin apoyo de manos, rotá de un lado al otro con control.", move: "twist", videoId: "i7HBLjNvayU" },
+    { id: "hip_flexor_lunge", zone: "cadera", name: "Estocada (flexor de cadera)",             dur: 40, inst1: "Estocada alta, sin bajar mucho la rodilla de atrás.", inst2: "Estocada baja, cadera bien hacia adelante. 20s cada lado.", videoId: "G8rbX0npKVE", sides: true,
+      poseA: { thigh: 30, knee: 75, hip: 8 }, breathing: true },
+    { id: "figure4",          zone: "cadera", name: "Figura 4 / paloma",                       dur: 50, inst1: "Sentado en una silla, cruzá el tobillo sobre la rodilla sin inclinarte mucho.", inst2: "Acostado o en el piso, cruzá el tobillo e inclinate bien adelante. 25s cada lado.", videoId: "cBFDMWI3MA0", sides: true,
+      poseA: { thigh: 55, knee: 105, hip: 30 }, breathing: true },
+    { id: "ninety_ninety",    zone: "cadera", name: "90/90 cambios de cadera",                 dur: 40, inst1: "Con las manos de apoyo atrás, rotá poquito de un lado al otro.", inst2: "Sin apoyo de manos, rotá de un lado al otro con control.", videoId: "i7HBLjNvayU",
+      poseA: { thigh: 15, knee: 92 }, poseB: { thigh: 75, knee: 92 } },
 
-    { id: "hamstring_stand",  zone: "piernas", name: "Isquiotibiales de pie",                  dur: 40, inst1: "Pierna apoyada bajita (en el piso), inclinate apenas desde la cadera.", inst2: "Pierna apoyada más alta, inclinate bien con la espalda recta.", move: "fold", videoId: "LVY692zJK0A" },
-    { id: "quad_stand",       zone: "piernas", name: "Cuádriceps de pie",                      dur: 30, inst1: "Sostenete de una pared o silla si te cuesta el equilibrio.", inst2: "Sin apoyo, llevá el talón bien hacia el glúteo. 15s cada lado.", move: "pulse", videoId: "Td-9CSgSFhs", sides: true },
-    { id: "seated_fold",      zone: "piernas", name: "Flexión sentada",                        dur: 40, inst1: "Rodillas un poco flexionadas, inclinate apenas desde la cadera.", inst2: "Piernas bien extendidas, inclinate buscando los pies.", move: "fold", videoId: "oJX8EKF3TqM" },
+    { id: "hamstring_stand",  zone: "piernas", name: "Isquiotibiales de pie",                  dur: 40, inst1: "Pierna apoyada bajita (en el piso), inclinate apenas desde la cadera.", inst2: "Pierna apoyada más alta, inclinate bien con la espalda recta.", videoId: "LVY692zJK0A",
+      poseA: { thigh: 58, knee: 0, hip: 42 }, breathing: true },
+    { id: "quad_stand",       zone: "piernas", name: "Cuádriceps de pie",                      dur: 30, inst1: "Sostenete de una pared o silla si te cuesta el equilibrio.", inst2: "Sin apoyo, llevá el talón bien hacia el glúteo. 15s cada lado.", videoId: "Td-9CSgSFhs", sides: true,
+      poseA: { knee: 115, shoulder: 55, elbow: 95 }, breathing: true },
+    { id: "seated_fold",      zone: "piernas", name: "Flexión sentada",                        dur: 40, inst1: "Rodillas un poco flexionadas, inclinate apenas desde la cadera.", inst2: "Piernas bien extendidas, inclinate buscando los pies.", videoId: "oJX8EKF3TqM",
+      poseA: { hip: 55, shoulder: -55 }, poseB: { hip: 78, shoulder: -80 } },
 
-    { id: "calf_wall",        zone: "pies", name: "Pantorrilla en la pared",                   dur: 40, inst1: "Pierna de atrás no tan estirada, sin forzar el talón.", inst2: "Pierna de atrás bien estirada, talón pegado al piso. 20s cada lado.", move: "lunge", videoId: "D8UIL5bsm7w", sides: true },
-    { id: "plantar_stretch",  zone: "pies", name: "Fascia plantar",                            dur: 30, inst1: "Tirá los dedos hacia atrás suave, sin forzar.", inst2: "Tirá los dedos bien hacia atrás, notando el arco. 15s cada lado.", move: "pulse", videoId: "JVS4MzeIBVI", sides: true },
-    { id: "ankle_circles",    zone: "pies", name: "Círculos de tobillo",                       dur: 30, inst1: "Círculos chicos y lentos.", inst2: "Círculos grandes, marcando bien el recorrido del tobillo.", move: "anklecircle", videoId: "RI4BJd1oKCI" },
-    { id: "toe_curls",        zone: "pies", name: "Flexión de dedos del pie",                  dur: 30, inst1: "Movimientos chicos, sin forzar si da calambre.", inst2: "Doblá y estirá bien los dedos, como agarrando fuerte una toalla.", move: "pulse", videoId: "MwmgnfSlGJY" }
+    { id: "calf_wall",        zone: "pies", name: "Pantorrilla en la pared",                   dur: 40, inst1: "Pierna de atrás no tan estirada, sin forzar el talón.", inst2: "Pierna de atrás bien estirada, talón pegado al piso. 20s cada lado.", videoId: "D8UIL5bsm7w", sides: true,
+      poseA: { thigh: -25, knee: 0, shoulder: -95, elbow: 20, hip: 15 }, breathing: true },
+    { id: "plantar_stretch",  zone: "pies", name: "Fascia plantar",                            dur: 30, inst1: "Tirá los dedos hacia atrás suave, sin forzar.", inst2: "Tirá los dedos bien hacia atrás, notando el arco. 15s cada lado.", videoId: "JVS4MzeIBVI", sides: true,
+      poseA: { thigh: 70, knee: 110, shoulder: 70, elbow: 90 }, breathing: true },
+    { id: "ankle_circles",    zone: "pies", name: "Círculos de tobillo",                       dur: 30, inst1: "Círculos chicos y lentos.", inst2: "Círculos grandes, marcando bien el recorrido del tobillo.", videoId: "RI4BJd1oKCI",
+      poseA: { thigh: 25, knee: 85 }, poseB: { thigh: 25, knee: 55 } },
+    { id: "toe_curls",        zone: "pies", name: "Flexión de dedos del pie",                  dur: 30, inst1: "Movimientos chicos, sin forzar si da calambre.", inst2: "Doblá y estirá bien los dedos, como agarrando fuerte una toalla.", videoId: "MwmgnfSlGJY",
+      poseA: { thigh: 70, knee: 100 }, breathing: true }
   ];
 
   // ---------- Storage ----------
@@ -694,13 +712,26 @@
       for (var k in ex) copy[k] = ex[k];
       copy.dur = Math.round(ex.dur * slowFactor);
       routine.push(copy);
-      total += copy.dur;
+      total += copy.dur + TRANSITION_SECONDS;
       i++;
     }
     return routine;
   }
 
-  var state = { routine: [], idx: 0, remaining: 0, running: false, timerId: null, usedIds: {}, sideCueDone: false };
+  var TRANSITION_SECONDS = 7;
+  var state = { routine: [], idx: 0, remaining: 0, running: false, timerId: null, usedIds: {}, sideCueDone: false, phase: "exercise" };
+
+  function speak(text) {
+    if (isMuted()) return;
+    try {
+      if (!("speechSynthesis" in window)) return;
+      window.speechSynthesis.cancel();
+      var u = new SpeechSynthesisUtterance(text);
+      u.lang = "es-ES";
+      u.rate = 1;
+      window.speechSynthesis.speak(u);
+    } catch (e) {}
+  }
 
   var ringFg = document.getElementById("timer-ring-fg");
   var RING_CIRC = 2 * Math.PI * 52;
@@ -719,6 +750,18 @@
   }
 
   var figureSvg = document.getElementById("figure-svg");
+  var JOINT_IDS = { orient: "orientG", hip: "hipG", shoulder: "shoulderG", elbow: "elbowG", thigh: "thighG", knee: "kneeG", neck: "neckG" };
+  function applyPose(p) {
+    p = p || {};
+    Object.keys(JOINT_IDS).forEach(function (k) {
+      document.getElementById(JOINT_IDS[k]).style.transform = "rotate(" + (p[k] || 0) + "deg)";
+    });
+  }
+  function stopPoseAnim() { /* no-op: pose is static now */ }
+  function startPoseAnim(ex) {
+    figureSvg.classList.remove("breathing");
+    applyPose(ex.poseA || {});
+  }
 
   function renderLevelControl(ex) {
     var row = document.getElementById("level-row");
@@ -745,7 +788,11 @@
     tag.style.background = ZONES[ex.zone].color + "33";
     tag.style.color = ZONES[ex.zone].color;
 
-    figureSvg.setAttribute("class", "figure move-" + ex.move);
+    document.getElementById("figure-wrap").style.visibility = "visible";
+    document.getElementById("level-row").style.visibility = "visible";
+    document.getElementById("replace-row").style.display = "block";
+
+    startPoseAnim(ex);
     var videoLink = document.getElementById("video-link");
     if (ex.videoId) {
       videoLink.href = "https://www.youtube.com/watch?v=" + ex.videoId;
@@ -763,9 +810,30 @@
     updateRing();
   }
 
+  function renderTransitionView(ex) {
+    document.getElementById("exercise-name").textContent = "Prepará la posición…";
+    document.getElementById("exercise-instructions").textContent = ex.name;
+    var tag = document.getElementById("zone-tag");
+    tag.textContent = ZONES[ex.zone].label;
+    tag.style.background = ZONES[ex.zone].color + "33";
+    tag.style.color = ZONES[ex.zone].color;
+
+    stopPoseAnim();
+    applyPose(ex.poseA);
+    figureSvg.classList.remove("breathing");
+    document.getElementById("figure-wrap").style.visibility = "hidden";
+    document.getElementById("level-row").style.visibility = "hidden";
+    document.getElementById("replace-row").style.display = "none";
+    document.getElementById("video-link").style.display = "none";
+
+    document.getElementById("next-up").textContent = "Arranca en unos segundos";
+    renderDots();
+    updateRing();
+  }
+
   function updateRing() {
-    var ex = currentExercise();
-    var frac = Math.max(0, state.remaining / ex.dur);
+    var denom = state.phase === "transition" ? TRANSITION_SECONDS : currentExercise().dur;
+    var frac = Math.max(0, state.remaining / denom);
     ringFg.style.strokeDashoffset = (RING_CIRC * (1 - frac)).toFixed(1);
     document.getElementById("timer-num").textContent = Math.max(0, Math.ceil(state.remaining));
   }
@@ -798,20 +866,39 @@
     state.idx = idx;
     var ex = currentExercise();
     state.usedIds[ex.id] = true;
+    state.phase = "transition";
+    state.remaining = TRANSITION_SECONDS;
+    document.getElementById("side-cue").style.opacity = "0";
+    renderTransitionView(ex);
+    beep(700, 0.1); vibrate(40);
+    speak(ex.name + ". Preparate.");
+  }
+
+  function beginExerciseTimer() {
+    var ex = currentExercise();
+    state.phase = "exercise";
     state.remaining = ex.dur;
     state.sideCueDone = false;
     document.getElementById("side-cue").style.opacity = "0";
     renderExerciseView();
     beep(880, 0.12); vibrate(80);
+    var level = getLevel(ex.id);
+    speak(level === 2 ? ex.inst2 : ex.inst1);
   }
 
   function tick() {
     state.remaining -= 0.1;
+    if (state.phase === "transition") {
+      if (state.remaining <= 0) { beginExerciseTimer(); return; }
+      updateRing();
+      return;
+    }
     var ex = currentExercise();
     if (ex.sides && !state.sideCueDone && state.remaining <= ex.dur / 2) {
       state.sideCueDone = true;
       beep(1050, 0.15); vibrate([50, 30, 50, 30, 50]);
       showSideCue();
+      speak("Cambiá de lado");
     }
     if (state.remaining <= 0) { updateRing(); advance(); return; }
     updateRing();
@@ -838,7 +925,15 @@
     startExerciseAt(nextIdx);
     if (wasRunning) play();
   }
-  function goNextManual() { advance(); if (!state.running) play(); }
+  function goNextManual() {
+    if (state.phase === "transition") {
+      var wasRunning = state.running;
+      beginExerciseTimer();
+      if (wasRunning) play();
+      return;
+    }
+    advance(); if (!state.running) play();
+  }
   function goPrev() {
     var prevIdx = Math.max(0, state.idx - 1);
     var wasRunning = state.running;
@@ -846,6 +941,7 @@
     if (wasRunning) play();
   }
   function replaceCurrent() {
+    if (state.phase !== "exercise") return;
     var ex = currentExercise();
     var alt = availableExercises().filter(function (e) { return e.zone === ex.zone && !state.usedIds[e.id] && e.id !== ex.id; });
     if (alt.length === 0) { goNextManual(); return; }
@@ -863,6 +959,7 @@
   }
 
   function dismissCurrentForever() {
+    if (state.phase !== "exercise") return;
     var ex = currentExercise();
     var ok = window.confirm('¿Sacar "' + ex.name + '" para siempre de tus rutinas? Podés restaurarlo después desde Datos, en el inicio.');
     if (!ok) return;
@@ -871,7 +968,9 @@
   }
 
   function finishRoutine() {
+    stopPoseAnim();
     beep(990, 0.2); vibrate([100, 60, 100, 60, 150]);
+    speak("Listo, terminaste tu rutina.");
     document.getElementById("scale-row").querySelectorAll(".scale-btn").forEach(function (b) { b.classList.remove("selected"); });
     document.getElementById("note-input").value = "";
     pendingCheckin.feel = null;
@@ -887,7 +986,7 @@
     showScreen("routine");
     play();
   }
-  function exitRoutine() { pause(); showScreen("home"); renderHome(); }
+  function exitRoutine() { pause(); stopPoseAnim(); showScreen("home"); renderHome(); }
 
   // ---------- Checkin ----------
   var pendingCheckin = { feel: null };
