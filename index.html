@@ -109,6 +109,10 @@
   .exercise-name { font-size: 1.35rem; font-weight: 700; margin: 6px 0 8px; }
   .exercise-instructions { color: var(--text-dim); font-size: .92rem; line-height: 1.4; max-width: 310px; min-height: 2.6em; }
 
+  .exercise-photo {
+    display: block; width: 100%; max-width: 230px; aspect-ratio: 4/5; object-fit: cover;
+    border-radius: 18px; margin: 0 auto; box-shadow: var(--shadow);
+  }
   .figure-wrap { width: 150px; margin: 4px auto 0; }
   .figure { width: 100%; height: 225px; }
   .figure .limb { stroke: var(--accent); stroke-linecap: round; fill: none; }
@@ -277,6 +281,7 @@
       <div class="exercise-instructions" id="exercise-instructions">Instrucciones</div>
 
       <div class="figure-wrap" id="figure-wrap">
+        <img class="exercise-photo" id="exercise-photo" alt="" loading="eager" />
         <svg class="figure" id="figure-svg" viewBox="0 0 140 210">
           <g class="orient-g" id="orientG">
            <g class="figure-g">
@@ -372,52 +377,52 @@
   var ZONE_ORDER = ["cuello_hombros", "espalda_alta", "espalda_baja", "cadera", "piernas", "pies"];
 
   var EXERCISES = [
-    { id: "neck_rot",         zone: "cuello_hombros", name: "Rotación de cuello",             dur: 40, inst1: "Círculos pequeños y lentos, sin forzar.", inst2: "Círculos grandes y lentos, llegando bien atrás y a los costados.", videoId: "j8Bm_Yyh1ug",
+    { id: "neck_rot",         zone: "cuello_hombros", name: "Rotación de cuello",             dur: 40, inst1: "Círculos pequeños y lentos, sin forzar.", inst2: "Círculos grandes y lentos, llegando bien atrás y a los costados.", videoId: "j8Bm_Yyh1ug", photo: 7900668,
       poseA: { neck: -22 }, poseB: { neck: 22 } },
-    { id: "shoulder_roll",    zone: "cuello_hombros", name: "Círculos de hombros",             dur: 30, inst1: "Círculos chicos y lentos, sintiendo que destraba.", inst2: "Círculos grandes y marcados: arriba, atrás y abajo.", videoId: "X7NtgY9kCCM",
+    { id: "shoulder_roll",    zone: "cuello_hombros", name: "Círculos de hombros",             dur: 30, inst1: "Círculos chicos y lentos, sintiendo que destraba.", inst2: "Círculos grandes y marcados: arriba, atrás y abajo.", videoId: "X7NtgY9kCCM", photo: 4944582,
       poseA: { shoulder: -8, elbow: 5 }, poseB: { shoulder: 35, elbow: 15 } },
-    { id: "cross_shoulder",   zone: "cuello_hombros", name: "Cruce de hombro",                 dur: 40, inst1: "Cruzá el brazo al pecho sin presionar con el otro, solo sostenelo ahí.", inst2: "Cruzá el brazo al pecho y presioná suave con el otro. 20s cada lado.", videoId: "uNmWSg705JA", sides: true,
+    { id: "cross_shoulder",   zone: "cuello_hombros", name: "Cruce de hombro",                 dur: 40, inst1: "Cruzá el brazo al pecho sin presionar con el otro, solo sostenelo ahí.", inst2: "Cruzá el brazo al pecho y presioná suave con el otro. 20s cada lado.", videoId: "uNmWSg705JA", sides: true, photo: 5793800,
       poseA: { shoulder: 0, elbow: 0 }, poseB: { shoulder: -95, elbow: 55 } },
-    { id: "chest_door",       zone: "cuello_hombros", name: "Pecho en marco de puerta",        dur: 40, inst1: "Antebrazo apoyado en la pared, sin girar mucho el cuerpo todavía.", inst2: "Antebrazo en la pared, girá bien el cuerpo al lado opuesto. 20s cada lado.", videoId: "Dmm8_S23I74", sides: true,
+    { id: "chest_door",       zone: "cuello_hombros", name: "Pecho en marco de puerta",        dur: 40, inst1: "Antebrazo apoyado en la pared, sin girar mucho el cuerpo todavía.", inst2: "Antebrazo en la pared, girá bien el cuerpo al lado opuesto. 20s cada lado.", videoId: "Dmm8_S23I74", sides: true, photo: 4662451,
       poseA: { shoulder: -90, hip: 0 }, poseB: { shoulder: -90, hip: -18 } },
 
-    { id: "thread_needle",    zone: "espalda_alta", name: "Rosca torácica",                    dur: 40, inst1: "Hacé el movimiento despacio, sin bajar mucho el hombro.", inst2: "Pasá bien el brazo por debajo del otro, hombro y cabeza apoyados. 20s cada lado.", videoId: "7C8-zj3nRro", sides: true,
+    { id: "thread_needle",    zone: "espalda_alta", name: "Rosca torácica",                    dur: 40, inst1: "Hacé el movimiento despacio, sin bajar mucho el hombro.", inst2: "Pasá bien el brazo por debajo del otro, hombro y cabeza apoyados. 20s cada lado.", videoId: "7C8-zj3nRro", sides: true, photo: 6932517,
       poseA: { hip: 78, thigh: -15, knee: 95, shoulder: -70, elbow: 30 }, poseB: { hip: 70, thigh: -15, knee: 95, shoulder: -15, elbow: 80 } },
-    { id: "cat_cow",          zone: "espalda_alta", name: "Gato-camello",                      dur: 40, inst1: "Movés poco, sin forzar la curva de la espalda.", inst2: "Arqueá y redondeá bien la espalda con cada respiración.", videoId: "xyNwxiuERXc",
+    { id: "cat_cow",          zone: "espalda_alta", name: "Gato-camello",                      dur: 40, inst1: "Movés poco, sin forzar la curva de la espalda.", inst2: "Arqueá y redondeá bien la espalda con cada respiración.", videoId: "xyNwxiuERXc", photo: 7663035,
       poseA: { hip: 85, thigh: -18, knee: 95 }, poseB: { hip: 55, thigh: -18, knee: 95, neck: -15 } },
-    { id: "thoracic_ext",     zone: "espalda_alta", name: "Extensión torácica",                dur: 35, inst1: "Arqueás apenas, sin manos detrás de la cabeza si molesta.", inst2: "Manos detrás de la cabeza, arqueá bien la zona media de la espalda.", videoId: "vx8T53c18LE",
+    { id: "thoracic_ext",     zone: "espalda_alta", name: "Extensión torácica",                dur: 35, inst1: "Arqueás apenas, sin manos detrás de la cabeza si molesta.", inst2: "Manos detrás de la cabeza, arqueá bien la zona media de la espalda.", videoId: "vx8T53c18LE", photo: 8187686,
       poseA: { shoulder: -150, elbow: 95, hip: 0 }, poseB: { shoulder: -150, elbow: 95, hip: -22 } },
 
-    { id: "knee_chest",       zone: "espalda_baja", name: "Rodillas al pecho",                 dur: 40, inst1: "Llevá una rodilla por vez si las dos juntas tira mucho.", inst2: "Las dos rodillas juntas al pecho, abrazadas.", videoId: "CClBl0H9fe4",
+    { id: "knee_chest",       zone: "espalda_baja", name: "Rodillas al pecho",                 dur: 40, inst1: "Llevá una rodilla por vez si las dos juntas tira mucho.", inst2: "Las dos rodillas juntas al pecho, abrazadas.", videoId: "CClBl0H9fe4", photo: 7900672,
       poseA: { orient: 90, thigh: 15, knee: 15 }, poseB: { orient: 90, thigh: 100, knee: 120 } },
-    { id: "child_pose",       zone: "espalda_baja", name: "Postura del niño",                  dur: 45, inst1: "Separá un poco las rodillas y no bajes del todo si tira la lumbar.", inst2: "Rodillas juntas, sentate bien atrás sobre los talones.", videoId: "HBdNHrt0A7Y",
+    { id: "child_pose",       zone: "espalda_baja", name: "Postura del niño",                  dur: 45, inst1: "Separá un poco las rodillas y no bajes del todo si tira la lumbar.", inst2: "Rodillas juntas, sentate bien atrás sobre los talones.", videoId: "HBdNHrt0A7Y", photo: 5837077,
       poseA: { hip: 78, thigh: -25, knee: 115, shoulder: -75, elbow: 10 }, breathing: true },
-    { id: "pelvic_tilt",      zone: "espalda_baja", name: "Básculas pélvicas",                 dur: 40, inst1: "Movimiento chico, solo notando la lumbar tocar el piso.", inst2: "Presioná fuerte la lumbar contra el piso y soltá, bien marcado.", videoId: "YLaTyrPAjbw",
+    { id: "pelvic_tilt",      zone: "espalda_baja", name: "Básculas pélvicas",                 dur: 40, inst1: "Movimiento chico, solo notando la lumbar tocar el piso.", inst2: "Presioná fuerte la lumbar contra el piso y soltá, bien marcado.", videoId: "YLaTyrPAjbw", photo: 4587402,
       poseA: { orient: 90, thigh: 85, knee: 95, hip: -8 }, poseB: { orient: 90, thigh: 85, knee: 95, hip: 12 } },
-    { id: "lying_twist",      zone: "espalda_baja", name: "Torsión lumbar acostado",           dur: 40, inst1: "Dejá caer las rodillas solo un poco, sin forzar.", inst2: "Rodillas juntas bien hacia el piso de cada lado. 20s cada lado.", videoId: "6c6Zk3SBzrk", sides: true,
+    { id: "lying_twist",      zone: "espalda_baja", name: "Torsión lumbar acostado",           dur: 40, inst1: "Dejá caer las rodillas solo un poco, sin forzar.", inst2: "Rodillas juntas bien hacia el piso de cada lado. 20s cada lado.", videoId: "6c6Zk3SBzrk", sides: true, photo: 7592444,
       poseA: { orient: 90, thigh: 60, knee: 100 }, poseB: { orient: 90, thigh: 135, knee: 100 } },
 
-    { id: "hip_flexor_lunge", zone: "cadera", name: "Estocada (flexor de cadera)",             dur: 40, inst1: "Estocada alta, sin bajar mucho la rodilla de atrás.", inst2: "Estocada baja, cadera bien hacia adelante. 20s cada lado.", videoId: "G8rbX0npKVE", sides: true,
+    { id: "hip_flexor_lunge", zone: "cadera", name: "Estocada (flexor de cadera)",             dur: 40, inst1: "Estocada alta, sin bajar mucho la rodilla de atrás.", inst2: "Estocada baja, cadera bien hacia adelante. 20s cada lado.", videoId: "G8rbX0npKVE", sides: true, photo: 5037396,
       poseA: { thigh: 30, knee: 75, hip: 8 }, breathing: true },
-    { id: "figure4",          zone: "cadera", name: "Figura 4 / paloma",                       dur: 50, inst1: "Sentado en una silla, cruzá el tobillo sobre la rodilla sin inclinarte mucho.", inst2: "Acostado o en el piso, cruzá el tobillo e inclinate bien adelante. 25s cada lado.", videoId: "cBFDMWI3MA0", sides: true,
+    { id: "figure4",          zone: "cadera", name: "Figura 4 / paloma",                       dur: 50, inst1: "Sentado en una silla, cruzá el tobillo sobre la rodilla sin inclinarte mucho.", inst2: "Acostado o en el piso, cruzá el tobillo e inclinate bien adelante. 25s cada lado.", videoId: "cBFDMWI3MA0", sides: true, photo: 6453960,
       poseA: { thigh: 55, knee: 105, hip: 30 }, breathing: true },
-    { id: "ninety_ninety",    zone: "cadera", name: "90/90 cambios de cadera",                 dur: 40, inst1: "Con las manos de apoyo atrás, rotá poquito de un lado al otro.", inst2: "Sin apoyo de manos, rotá de un lado al otro con control.", videoId: "i7HBLjNvayU",
+    { id: "ninety_ninety",    zone: "cadera", name: "90/90 cambios de cadera",                 dur: 40, inst1: "Con las manos de apoyo atrás, rotá poquito de un lado al otro.", inst2: "Sin apoyo de manos, rotá de un lado al otro con control.", videoId: "i7HBLjNvayU", photo: 11496101,
       poseA: { thigh: 15, knee: 92 }, poseB: { thigh: 75, knee: 92 } },
 
-    { id: "hamstring_stand",  zone: "piernas", name: "Isquiotibiales de pie",                  dur: 40, inst1: "Pierna apoyada bajita (en el piso), inclinate apenas desde la cadera.", inst2: "Pierna apoyada más alta, inclinate bien con la espalda recta.", videoId: "LVY692zJK0A",
+    { id: "hamstring_stand",  zone: "piernas", name: "Isquiotibiales de pie",                  dur: 40, inst1: "Pierna apoyada bajita (en el piso), inclinate apenas desde la cadera.", inst2: "Pierna apoyada más alta, inclinate bien con la espalda recta.", videoId: "LVY692zJK0A", photo: 4164453,
       poseA: { thigh: 58, knee: 0, hip: 42 }, breathing: true },
-    { id: "quad_stand",       zone: "piernas", name: "Cuádriceps de pie",                      dur: 30, inst1: "Sostenete de una pared o silla si te cuesta el equilibrio.", inst2: "Sin apoyo, llevá el talón bien hacia el glúteo. 15s cada lado.", videoId: "Td-9CSgSFhs", sides: true,
+    { id: "quad_stand",       zone: "piernas", name: "Cuádriceps de pie",                      dur: 30, inst1: "Sostenete de una pared o silla si te cuesta el equilibrio.", inst2: "Sin apoyo, llevá el talón bien hacia el glúteo. 15s cada lado.", videoId: "Td-9CSgSFhs", sides: true, photo: 6453974,
       poseA: { knee: 115, shoulder: 55, elbow: 95 }, breathing: true },
-    { id: "seated_fold",      zone: "piernas", name: "Flexión sentada",                        dur: 40, inst1: "Rodillas un poco flexionadas, inclinate apenas desde la cadera.", inst2: "Piernas bien extendidas, inclinate buscando los pies.", videoId: "oJX8EKF3TqM",
+    { id: "seated_fold",      zone: "piernas", name: "Flexión sentada",                        dur: 40, inst1: "Rodillas un poco flexionadas, inclinate apenas desde la cadera.", inst2: "Piernas bien extendidas, inclinate buscando los pies.", videoId: "oJX8EKF3TqM", photo: 8174424,
       poseA: { hip: 55, shoulder: -55 }, poseB: { hip: 78, shoulder: -80 } },
 
-    { id: "calf_wall",        zone: "pies", name: "Pantorrilla en la pared",                   dur: 40, inst1: "Pierna de atrás no tan estirada, sin forzar el talón.", inst2: "Pierna de atrás bien estirada, talón pegado al piso. 20s cada lado.", videoId: "D8UIL5bsm7w", sides: true,
+    { id: "calf_wall",        zone: "pies", name: "Pantorrilla en la pared",                   dur: 40, inst1: "Pierna de atrás no tan estirada, sin forzar el talón.", inst2: "Pierna de atrás bien estirada, talón pegado al piso. 20s cada lado.", videoId: "D8UIL5bsm7w", sides: true, photo: 36429567,
       poseA: { thigh: -25, knee: 0, shoulder: -95, elbow: 20, hip: 15 }, breathing: true },
-    { id: "plantar_stretch",  zone: "pies", name: "Fascia plantar",                            dur: 30, inst1: "Tirá los dedos hacia atrás suave, sin forzar.", inst2: "Tirá los dedos bien hacia atrás, notando el arco. 15s cada lado.", videoId: "JVS4MzeIBVI", sides: true,
+    { id: "plantar_stretch",  zone: "pies", name: "Fascia plantar",                            dur: 30, inst1: "Tirá los dedos hacia atrás suave, sin forzar.", inst2: "Tirá los dedos bien hacia atrás, notando el arco. 15s cada lado.", videoId: "JVS4MzeIBVI", sides: true, photo: 6926012,
       poseA: { thigh: 70, knee: 110, shoulder: 70, elbow: 90 }, breathing: true },
     { id: "ankle_circles",    zone: "pies", name: "Círculos de tobillo",                       dur: 30, inst1: "Círculos chicos y lentos.", inst2: "Círculos grandes, marcando bien el recorrido del tobillo.", videoId: "RI4BJd1oKCI",
       poseA: { thigh: 25, knee: 85 }, poseB: { thigh: 25, knee: 55 } },
-    { id: "toe_curls",        zone: "pies", name: "Flexión de dedos del pie",                  dur: 30, inst1: "Movimientos chicos, sin forzar si da calambre.", inst2: "Doblá y estirá bien los dedos, como agarrando fuerte una toalla.", videoId: "MwmgnfSlGJY",
+    { id: "toe_curls",        zone: "pies", name: "Flexión de dedos del pie",                  dur: 30, inst1: "Movimientos chicos, sin forzar si da calambre.", inst2: "Doblá y estirá bien los dedos, como agarrando fuerte una toalla.", videoId: "MwmgnfSlGJY", photo: 9617036,
       poseA: { thigh: 70, knee: 100 }, breathing: true }
   ];
 
@@ -792,7 +797,22 @@
     document.getElementById("level-row").style.visibility = "visible";
     document.getElementById("replace-row").style.display = "block";
 
-    startPoseAnim(ex);
+    var photoEl = document.getElementById("exercise-photo");
+    if (ex.photo) {
+      photoEl.onerror = function () {
+        photoEl.style.display = "none";
+        figureSvg.style.display = "block";
+        startPoseAnim(ex);
+      };
+      photoEl.src = "https://images.pexels.com/photos/" + ex.photo + "/pexels-photo-" + ex.photo + ".jpeg?auto=compress&cs=tinysrgb&w=500";
+      photoEl.alt = ex.name;
+      photoEl.style.display = "block";
+      figureSvg.style.display = "none";
+    } else {
+      photoEl.style.display = "none";
+      figureSvg.style.display = "block";
+      startPoseAnim(ex);
+    }
     var videoLink = document.getElementById("video-link");
     if (ex.videoId) {
       videoLink.href = "https://www.youtube.com/watch?v=" + ex.videoId;
