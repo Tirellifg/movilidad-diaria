@@ -1,4 +1,4 @@
-const CACHE_NAME = "movilidad-v3";
+const CACHE_NAME = "movilidad-v4";
 const ASSETS = ["./", "./index.html", "./manifest.json", "./app-icon.png"];
 
 self.addEventListener("install", function (event) {
